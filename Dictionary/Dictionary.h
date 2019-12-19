@@ -143,25 +143,31 @@ namespace Containers {
 		// Creates a temp to hold the last node and set last's data and next
 		Node* last = new Node(key, item);
 		bool condition = true;
-
+		
 		last->ptrNext = nullptr;
 
 		// If the linked list is empty then set head = last
 		if (currentNode == nullptr) {
 			currentNode = last;
+			
 		}
 		else {
 			// Creates a temp node and sets it to head
 			Node* temp = currentNode;
-
+			if (temp->key == key)
+			{
+				// return false because key is already present in list.
+				return false;
+			}
 			// Uses temp to find the last node
 			while (temp->ptrNext != nullptr) {
-				temp = temp->ptrNext;
 				if (temp->key == key)
 				{
 					// return false because key is already present in list.
 					return false;
 				}
+				temp = temp->ptrNext;
+				
 			}
 
 			// Appends the last node with last
