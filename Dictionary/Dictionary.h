@@ -7,29 +7,55 @@ namespace Containers {
 	class Dictionary
 	{
 	public:
-		//using Key = std::string;
-		//using Item = std::string;
-		//using Comparison = auto (Key)->bool;
 		
 		//Defualt, Copy and move constructors.
 		Dictionary() = default;
+		//Copy constructor time complexity is 0(n) because a copy of the list is required.
+		//Best case is 0(1) if list is empty.
 		Dictionary(const Dictionary&);
+		//Time complexity of Move Constructor is 0(1) because we are making a shallow copy of the root node.
 		Dictionary(Dictionary&&);
 
 		//Move and Copy Assignment Operators.
+		//Copy assignment operators time complexity of the best case is 0(1)
+		//because if both objects are the exact same then that object will be returned.
+		//Also because deepDelete and deepCopy are called if the list is empty the complexity will be 0(1)
+		//Otherwise it will be 0(n) because the size of the list will effect the performance of the operator.
+		//Worst and average case is 0(n) because a traverse is required to copy and delete nodes.
 		Dictionary<Key, Item>& operator=(const Dictionary&);
+
+		//Move assignment operator time complexity is the same as the copy assignment operator.
 		Dictionary<Key, Item>& operator=(Dictionary&&);
 		
 		//Destructor
+		//Destructor time complexity is 0(1) if list is empty or list contains a root node.
+		// otherwise complexity is 0(n) because the list will contain more that one node and deepDelete is called in the destrucor. 
 		~Dictionary();
 
+		//Time complexity of insert is 0(n) in its worst and average case.
+		//Inserts worst and average case are both the same because insert, inserts nodes at the end of the list.
+		//The best case is when the list is empty to begin with, the time complexity of this case would be 0(1).
+		//This is because when the list is empty creating a new node is independent of the size of the list.
 		bool insert(Key, Item);
+
+		//Time complexity of remove is 0(n) in its worst and average case.
+		//This is because in order to remove an element, keys must match.
+		//A traverse of the list is required and size of list will effect the preformance of this method.
+		//Best case is 0(1) if first node is to be removed.
 		bool remove(Key);
+
 		//RemoveIF returns true if key is absent in list.
+		//RemoveIf time complexity is 0(1) because all it does is call remove when called.
 		bool (Dictionary::* removeIf)(std::string) = &Dictionary::remove;
 		
-		
+		//Display dictionaries time complexity is 0(n) because it only has one case.
+		//That case is to print the whole list regardless of how large or small it is.
+		//The time it takes to execute this method will solely rely on how large the linked list is.
 		void displayDictionary();
+
+		//Time complexity of lookup is 0(n) in the average and worst case
+		//In the best case it is 0(1) because the first node will be returned 
+		//and would not matter how large the list is because we only access the first one.
 		Item* lookup(Key);
 
 	private:
@@ -66,16 +92,13 @@ namespace Containers {
 	template<class Key, class Item>
 	Dictionary<Key, Item>::Dictionary(const Dictionary& original)
 	{
-		std::cout << "Copy Constructor Invoked" << std::endl;
 		this->root = deepCopy(original.root);
-
 	}
 
 	//Copy Assignment Operator.
 	template<class Key, class Item>
 	Dictionary<Key, Item>& Dictionary<Key, Item>::operator=(const Dictionary& original)
 	{
-		std::cout << "Assignment operator" << std::endl;
 		//Check if objects are the same.
 		if (this == &original)
 		{
@@ -90,7 +113,6 @@ namespace Containers {
 	template<class Key, class Item>
 	Dictionary<Key, Item>::Dictionary(Dictionary&& original)
 	{
-		std::cout << "Move Constructor" << std::endl;
 		//Steal data from temporary object then set to valid state for possible reuse.
 		this->root = original.root;
 		original.root = nullptr;
@@ -107,8 +129,6 @@ namespace Containers {
 		{
 			return *this;
 		}
-
-		std::cout << "Move Operator" << std::endl;
 
 		//Clean up existing resorces
 		deepDelete(root);
