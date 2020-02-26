@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Dictionary.h"
+#include <string>
 
 using namespace Containers;
 
@@ -9,7 +10,7 @@ int main()
 	Dictionary<std::string, std::string> dict;
 	
 	dict.insert("22", "Jane");
-	dict.insert("22", "Mary"),
+	dict.insert("22", "Mary");
 	dict.insert("0", "Harold");
 	dict.insert("9", "Edward");
 	dict.insert("37", "Victoria");
@@ -25,12 +26,16 @@ int main()
 	dict.insert("1", "William");
 	dict.insert("26", "Charles");
 
-	std::cout <<"---Dict---" << std::endl;
-	dict.displayDictionary();
 	
-	//(dict.*dict.removeIf)("1");
+	
+	//(dict.*dict.removeIf)("2");
 
-	//dict.displayDictionary();
+	
+
+	dict.displayDictionary();
+	std::cout << dict.remove("-1") << std::endl;
+	dict.displayDictionary();
+
 	
 	
 
